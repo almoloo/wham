@@ -1,0 +1,150 @@
+# wham — single-stack deploy (Coolify)
+#
+# Five services: postgres, api, indexer, workers, frontend.
+# Contracts are not a service — they live on Arbitrum, deployed via `forge script`.
+#
+# Coolify notes:
+#   - No `ports:` mappings. Coolify's proxy routes by domain; services reach each
+#     other over the compose network by service name.
+#   - Only `frontend` gets a public domain. The API is reached through the
+#     frontend's same-origin rewrite (/api/v1/* -> http://api:8080/v1/*), which is
+#     also what keeps the SIWE session cookie first-party.
+#   - SERVICE_* variables are Coolify magic vars: FQDN/URL are tied to the service
+#     and its domain; USER/PASSWORD are generated once and shared across services.
+#   - Any ${VAR} below shows up as an editable variable in the Coolify UI.
+#     Secrets go there, never in this file.
+#   - `indexer` must stay at one replica. Scaling it corrupts the projection.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: wham
+      POSTGRES_USER: ${SERVICE_USER_POSTGRES}
+      POSTGRES_PASSWORD: ${SERVICE_PASSWORD_POSTGRES}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SERVICE_USER_POSTGRES} -d wham"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [wham]
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      WHAM_ROLE: api
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__Wham: >-
+        Host=postgres;Port=5432;Database=wham;Username=${SERVICE_USER_POSTGRES};Password=${SERVICE_PASSWORD_POSTGRES}
+      Wham__ChainId: ${WHAM_CHAIN_ID:-421614}
+      Wham__RpcUrl: ${WHAM_RPC_URL}
+      Wham__RpcUrlFallback: ${WHAM_RPC_URL_FALLBACK:-https://sepolia-rollup.arbitrum.io/rpc}
+      Wham__Auth__Domain: ${WHAM_PUBLIC_DOMAIN}
+      Wham__Auth__Issuer: https://${WHAM_PUBLIC_DOMAIN}
+      Wham__Auth__Audience: wham-app
+      Wham__Auth__JwtSigningKey: ${WHAM_JWT_SIGNING_KEY}
+    expose: ["8080"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks: [wham]
+
+  # Single replica, always. Idempotency is guarded by a unique index, but two
+  # indexers still double every RPC call and race the checkpoint.
+  indexer:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      api:
+        condition: service_healthy   # api runs migrations on startup
+    environment:
+      WHAM_ROLE: indexer
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Wham: >-
+        Host=postgres;Port=5432;Database=wham;Username=${SERVICE_USER_POSTGRES};Password=${SERVICE_PASSWORD_POSTGRES}
+      Wham__ChainId: ${WHAM_CHAIN_ID:-421614}
+      Wham__RpcUrl: ${WHAM_RPC_URL}
+      Wham__RpcUrlFallback: ${WHAM_RPC_URL_FALLBACK:-https://sepolia-rollup.arbitrum.io/rpc}
+    deploy:
+      replicas: 1
+    networks: [wham]
+
+  # The only container that holds signing keys.
+  workers:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+    environment:
+      WHAM_ROLE: workers
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Wham: >-
+        Host=postgres;Port=5432;Database=wham;Username=${SERVICE_USER_POSTGRES};Password=${SERVICE_PASSWORD_POSTGRES}
+      Wham__ChainId: ${WHAM_CHAIN_ID:-421614}
+      Wham__RpcUrl: ${WHAM_RPC_URL}
+      Wham__RpcUrlFallback: ${WHAM_RPC_URL_FALLBACK:-https://sepolia-rollup.arbitrum.io/rpc}
+      Wham__Agent__PrivateKey: ${WHAM_AGENT_PRIVATE_KEY}
+      Wham__Keeper__PrivateKey: ${WHAM_KEEPER_PRIVATE_KEY}
+      Wham__Keeper__Enabled: "true"
+      Wham__Email__ApiKey: ${WHAM_EMAIL_API_KEY:-}
+      Wham__Telegram__BotToken: ${WHAM_TELEGRAM_BOT_TOKEN:-}
+    deploy:
+      replicas: 1
+    networks: [wham]
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_CHAIN_ID: ${WHAM_CHAIN_ID:-421614}
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      SERVICE_FQDN_FRONTEND_3000: ${WHAM_PUBLIC_DOMAIN}
+      NODE_ENV: production
+      PORT: "3000"
+      HOSTNAME: "0.0.0.0"
+      WHAM_API_URL: http://api:8080     # internal; never exposed to the browser
+      NEXT_PUBLIC_CHAIN_ID: ${WHAM_CHAIN_ID:-421614}
+      NEXT_PUBLIC_USE_MOCKS: "false"
+    expose: ["3000"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks: [wham]
+
+volumes:
+  postgres-data:
+
+networks:
+  wham:
+    driver: bridge
