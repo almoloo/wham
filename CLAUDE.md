@@ -146,15 +146,18 @@ See `.env.example`. Never commit a key.
 
 | Var | Used by | Note |
 |---|---|---|
-| `DATABASE_URL` / `ConnectionStrings__Wham` | backend | |
+| `DATABASE_URL` / `ConnectionStrings__Wham` | backend | compose sets `ConnectionStrings__Wham` directly from the Postgres vars below |
 | `WHAM_ROLE` | backend | `api` \| `indexer` \| `workers` \| `all` |
-| `Wham__ChainId`, `Wham__RpcUrl`, `Wham__RpcUrlFallback` | backend | paid RPC primary, public as fallback |
-| `Wham__Agent__PrivateKey` | **workers only** | signs EIP-712 quotes + attestations |
-| `Wham__Keeper__PrivateKey` | **workers only** | sends `settleRound` / `start` / `cancel` |
-| `Wham__Auth__JwtSigningKey` | backend | 32+ bytes |
-| `Wham__Email__ApiKey`, `Wham__Telegram__BotToken` | workers | |
+| `WHAM_CHAIN_ID` | backend, frontend | defaults to `421614` (Arbitrum Sepolia) |
+| `Wham__RpcUrl` / `WHAM_RPC_URL`, `Wham__RpcUrlFallback` / `WHAM_RPC_URL_FALLBACK` | backend | paid RPC primary, public as fallback |
+| `WHAM_PUBLIC_DOMAIN` | backend, frontend | SIWE domain/issuer; frontend's public FQDN |
+| `Wham__Agent__PrivateKey` / `WHAM_AGENT_PRIVATE_KEY` | **workers only** | signs EIP-712 quotes + attestations |
+| `Wham__Keeper__PrivateKey` / `WHAM_KEEPER_PRIVATE_KEY` | **workers only** | sends `settleRound` / `start` / `cancel` |
+| `Wham__Auth__JwtSigningKey` / `WHAM_JWT_SIGNING_KEY` | backend | 32+ bytes |
+| `Wham__Email__ApiKey` / `WHAM_EMAIL_API_KEY`, `Wham__Telegram__BotToken` / `WHAM_TELEGRAM_BOT_TOKEN` | workers | optional |
 | `WHAM_API_URL` | frontend | internal container URL for the rewrite |
-| `NEXT_PUBLIC_CHAIN_ID`, `NEXT_PUBLIC_USE_MOCKS` | frontend | |
+| `NEXT_PUBLIC_CHAIN_ID`, `NEXT_PUBLIC_USE_MOCKS` | frontend | **build args, not runtime env** — inlined into the client bundle |
+| `SERVICE_USER_POSTGRES`, `SERVICE_PASSWORD_POSTGRES` | postgres | Coolify-generated in production; set in `.env` for local compose |
 | `DEPLOYER_PK`, `AGENT_ADDRESS`, `ARB_SEPOLIA_RPC`, `ARBISCAN_API_KEY` | contracts | local only, never in compose |
 
 Contract addresses are **not** environment variables — they come from `shared/deployments/`.

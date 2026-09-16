@@ -1,6 +1,6 @@
 # Current Feature
 
-Nothing in progress — run `/feature`, `/fix`, or `/rollback` to start one.
+Nothing in progress — run `/feature` or `/fix` to start one. (A rollback is a spec *type*, not a separate command: `/fix` can write a rollback spec, which `/implement` then applies as a guarded reverse patch.)
 
 ## Template
 

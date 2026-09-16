@@ -10,7 +10,7 @@ Hundreds of millions of people already save through rotating savings circles —
 
 That breaks the moment the group grows past people who personally know each other, which is exactly where it would be most useful — diaspora communities, freelancers, and small savers in regions with weak banking infrastructure, all of whom lack easy access to formal credit. `wham` replaces the social trust that makes informal circles work with cryptographic collateral, an auction for payout order, an underwriting agent with an on-chain identity, and a shared insurance pool. Same instrument, solved trust problem.
 
-Built for the Arbitrum Open House Singapore buildathon (Sep 13 – Oct 4, 2026), targeting Arbitrum One/Sepolia directly.
+Built for the Arbitrum Open House Singapore buildathon (Sep 13 – Oct 4, 2026), targeting Arbitrum Sepolia until after judging, Arbitrum One after.
 
 ---
 
@@ -85,7 +85,7 @@ Built for the Arbitrum Open House Singapore buildathon (Sep 13 – Oct 4, 2026),
 
 ## Technology Stack
 
-- **Contracts:** Solidity 0.8.28, Foundry (`via_ir`, optimizer 200), OpenZeppelin 5.x. EIP-1167 minimal proxies with CREATE2, EIP-712 typed-data quotes, ERC-5192 soulbound tokens, ERC-8004 identity/reputation registries. Deployed to Arbitrum Sepolia (42161 / 421614 configs both present).
+- **Contracts:** Solidity 0.8.28, Foundry (`via_ir`, optimizer 200), OpenZeppelin 5.x. EIP-1167 minimal proxies with CREATE2, EIP-712 typed-data quotes, ERC-5192 soulbound tokens, ERC-8004 identity/reputation registries. Deployed to Arbitrum Sepolia (421614); Arbitrum One (42161) config present but unused until after judging.
 - **Backend:** .NET 9, ASP.NET Core minimal APIs with route groups and endpoint filters. PostgreSQL 16 via EF Core 9 (`numeric(78,0)` for all token amounts). Nethereum 4.x for chain access (`Nethereum.Siwe`, `Nethereum.Signer.EIP712`). Background work via `IHostedService` + a job table, not Hangfire. FluentValidation; hand-written mappers (no AutoMapper — DTO shapes are pinned to the frontend spec and must be explicit). Serilog + OpenTelemetry.
 - **Frontend:** Next.js 15 App Router, TypeScript strict, Tailwind v4 with CSS-custom-property design tokens. wagmi v2 + viem v2 + RainbowKit, SIWE (EIP-4361) with the JWT in an httpOnly cookie set by a thin BFF route handler. TanStack Query v5 for server state, Zustand only for tx/toast queues. React Hook Form + Zod (schemas double as API response validators at the boundary). Recharts, date-fns, MSW for the mock layer.
 - **Auth strategy:** SIWE signature → .NET verifies nonce, domain, chain, expiry and signature (with EIP-1271 fallback for smart-contract wallets) → JWT (7d) in an httpOnly cookie. Every `/me/*` endpoint derives the address from the JWT, never from a route param. There are no roles.

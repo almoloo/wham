@@ -14,6 +14,14 @@
 #   - Any ${VAR} below shows up as an editable variable in the Coolify UI.
 #     Secrets go there, never in this file.
 #   - `indexer` must stay at one replica. Scaling it corrupts the projection.
+#   - Build contexts are the repo root so each Dockerfile can COPY ../shared
+#     equivalents (shared/abi, shared/deployments). shared/ is also bind-mounted
+#     read-only at runtime so a new shared/deployments/<chainId>.json (written by
+#     `forge script` after a redeploy) doesn't require rebuilding images.
+#   - Healthchecks call `curl`. The mcr.microsoft.com/dotnet/aspnet base image
+#     doesn't ship curl or wget — backend/Dockerfile must `apt-get install -y
+#     curl` (or switch the healthcheck to a custom ASPNETCORE_URLS ping) or these
+#     will never report healthy and every dependent service will hang waiting.
 
 services:
   postgres:
@@ -35,8 +43,8 @@ services:
 
   api:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     restart: unless-stopped
     depends_on:
       postgres:
@@ -54,9 +62,11 @@ services:
       Wham__Auth__Issuer: https://${WHAM_PUBLIC_DOMAIN}
       Wham__Auth__Audience: wham-app
       Wham__Auth__JwtSigningKey: ${WHAM_JWT_SIGNING_KEY}
+    volumes:
+      - ./shared:/app/shared:ro
     expose: ["8080"]
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health/ready || exit 1"]
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health/ready || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -67,8 +77,8 @@ services:
   # indexers still double every RPC call and race the checkpoint.
   indexer:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     restart: unless-stopped
     depends_on:
       postgres:
@@ -83,6 +93,8 @@ services:
       Wham__ChainId: ${WHAM_CHAIN_ID:-421614}
       Wham__RpcUrl: ${WHAM_RPC_URL}
       Wham__RpcUrlFallback: ${WHAM_RPC_URL_FALLBACK:-https://sepolia-rollup.arbitrum.io/rpc}
+    volumes:
+      - ./shared:/app/shared:ro
     deploy:
       replicas: 1
     networks: [wham]
@@ -90,8 +102,8 @@ services:
   # The only container that holds signing keys.
   workers:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     restart: unless-stopped
     depends_on:
       postgres:
@@ -111,16 +123,22 @@ services:
       Wham__Keeper__Enabled: "true"
       Wham__Email__ApiKey: ${WHAM_EMAIL_API_KEY:-}
       Wham__Telegram__BotToken: ${WHAM_TELEGRAM_BOT_TOKEN:-}
+    volumes:
+      - ./shared:/app/shared:ro
     deploy:
       replicas: 1
     networks: [wham]
 
   frontend:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: frontend/Dockerfile
       args:
+        # NEXT_PUBLIC_* vars are inlined into the client bundle at build time —
+        # setting them under `environment:` below has no effect on the browser
+        # code, only on the Node server process. Both must be build args.
         NEXT_PUBLIC_CHAIN_ID: ${WHAM_CHAIN_ID:-421614}
+        NEXT_PUBLIC_USE_MOCKS: "false"
     restart: unless-stopped
     depends_on:
       api:
@@ -135,7 +153,7 @@ services:
       NEXT_PUBLIC_USE_MOCKS: "false"
     expose: ["3000"]
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
+      test: ["CMD-SHELL", "curl -sf http://localhost:3000/api/health || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 10
