@@ -1,8 +1,22 @@
 /**
  * Temporary token/theme smoke test for the design-system foundation
- * (context/current-feature.md, Frontend 2b). Replaced wholesale by the real
- * landing page in a later feature — not a permanent route.
+ * (context/current-feature.md, Frontend 2b/2d). Replaced wholesale by the
+ * real landing page in a later feature — not a permanent route.
  */
+
+import {
+  Avatar,
+  AvatarStack,
+  Badge,
+  Button,
+  Card,
+  Divider,
+  Icon,
+  IconButton,
+  SectionHeader,
+  Skeleton,
+  Tag,
+} from "@/components/ui";
 
 const SWATCHES = [
   { label: "brand-primary", className: "bg-brand-primary" },
@@ -64,6 +78,89 @@ export default function Home() {
           <code className="wham-mono">&lt;html&gt;</code> in devtools to check the
           dark scope.
         </p>
+      </div>
+
+      <div
+        className="mx-auto mt-6 flex max-w-content-max flex-col gap-6 rounded-lg border border-border-subtle bg-surface-card p-card-pad"
+        style={{ boxShadow: "var(--shadow-2)" }}
+      >
+        <h2>Core components</h2>
+
+        <section className="flex flex-wrap items-center gap-2.5">
+          <Button>Join circle</Button>
+          <Button variant="accent" iconLeft="wallet">
+            Pay $200
+          </Button>
+          <Button variant="secondary">Details</Button>
+          <Button variant="ghost" iconLeft="info">
+            Why?
+          </Button>
+          <Button variant="danger" size="sm">
+            Leave
+          </Button>
+          <Button disabled>Bid closed</Button>
+          <IconButton icon="chevron-left" label="Back" variant="outline" />
+          <IconButton icon="plus" label="New circle" variant="primary" />
+        </section>
+
+        <section className="flex flex-wrap items-center gap-2.5">
+          <Badge tone="success" dot>
+            Paid
+          </Badge>
+          <Badge tone="warning" dot>
+            Due 3 Sep
+          </Badge>
+          <Badge tone="danger" icon="alert-triangle">
+            Overdue 2 days
+          </Badge>
+          <Badge tone="info" icon="link-2">
+            On-chain
+          </Badge>
+          <Badge tone="brand">Round 4</Badge>
+          <Tag icon="users">12 members</Tag>
+          <Tag icon="refresh-cw">Monthly</Tag>
+          <Tag mono selected>
+            Arbitrum
+          </Tag>
+        </section>
+
+        <section className="grid grid-cols-2 gap-3">
+          <Card padding="compact" interactive>
+            <SectionHeader
+              title="Tehran Freelancers"
+              caption="$200 · monthly · 12 rounds"
+              action="Open"
+            />
+          </Card>
+          <Card padding="compact" tone="sunken" className="grid gap-2">
+            <Skeleton width={140} height={16} />
+            <Skeleton width="80%" height={12} />
+          </Card>
+        </section>
+
+        <section className="flex flex-wrap items-center gap-2.5">
+          <Avatar name="Nasrin Amiri" size="lg" band="trusted" />
+          <Avatar name="Reza Karimi" band="solid" />
+          <Avatar name="Leila S" size="sm" band="building" />
+          <AvatarStack
+            members={["Nasrin Amiri", "Reza Karimi", "Leila S", "Omid T", "Sara B"]}
+            total={12}
+            max={4}
+          />
+          <Icon name="shield-check" size={24} color="var(--brand-primary)" />
+          <Icon name="gavel" size={24} color="var(--accent-saffron)" />
+          <Icon name="sparkles" size={24} color="var(--lapis-500)" />
+        </section>
+
+        <Divider label="Or continue with" />
+
+        <section className="flex items-center gap-2.5">
+          <span>Circles</span>
+          <Divider vertical className="h-4" />
+          <span>Browse</span>
+          <Divider vertical className="h-4" />
+          <span>Calendar</span>
+        </section>
       </div>
     </main>
   );

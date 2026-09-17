@@ -42,8 +42,7 @@ Recorded so this breakdown isn't lost; pass each as the argument to a later
 
 - [x] 2b. Design tokens, Tailwind theme & fonts (Completed — see History)
 - [x] 2c. Brand assets & favicons (Completed — see History)
-- [ ] 2d. Core primitives — `Button`, `IconButton`, `Icon`, `Card`, `Badge`,
-      `Tag`, `Avatar`, `AvatarStack`, `SectionHeader`, `Skeleton`, `Divider`
+- [x] 2d. Core primitives (Completed — see History)
 - [ ] 2e. Form components — `Input`, `Textarea`, `Select`, `Checkbox`,
       `Radio`, `Switch` (Radix-backed where interactive)
 - [ ] 2f. Feedback components — `Dialog`, `Toast`, `Banner`, `Spinner`,
@@ -90,3 +89,8 @@ follow (Completed)
 generate the full browser-chrome icon set (tab favicon, Apple touch icon,
 Safari pinned-tab mask icon, theme color) via Next.js metadata file
 conventions (Completed)
+
+**Frontend — 2d. Core primitives** - build the 11 `components/core/`
+primitives (Icon, Divider, Skeleton, Badge, Tag, IconButton, Button, Avatar,
+AvatarStack, Card, SectionHeader) as typed, Tailwind + token-driven
+components with a curated static icon set (Completed)
