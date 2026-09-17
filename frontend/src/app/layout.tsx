@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Kdam_Thmor_Pro, Manrope } from "next/font/google";
 import "./globals.css";
 
@@ -26,6 +26,19 @@ const kdamThmorPro = Kdam_Thmor_Pro({
 export const metadata: Metadata = {
   title: "wham",
   description: "Rotating savings circles, on-chain.",
+  icons: {
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/brand/logo-mono.svg",
+        color: "#1B8B85",
+      },
+    ],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1B8B85",
 };
 
 export default function RootLayout({

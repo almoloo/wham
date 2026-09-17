@@ -41,9 +41,7 @@ Recorded so this breakdown isn't lost; pass each as the argument to a later
 (`e202fb25-80ed-4ed5-a4dd-9cab854ba2d4`), read via the `DesignSync` tool.
 
 - [x] 2b. Design tokens, Tailwind theme & fonts (Completed — see History)
-- [ ] 2c. Brand assets & favicons — logo/wordmark SVGs into `public/`, full
-      favicon/app-icon set generated from `assets/logo-mono.svg`, wired into
-      Next.js `metadata.icons`
+- [x] 2c. Brand assets & favicons (Completed — see History)
 - [ ] 2d. Core primitives — `Button`, `IconButton`, `Icon`, `Card`, `Badge`,
       `Tag`, `Avatar`, `AvatarStack`, `SectionHeader`, `Skeleton`, `Divider`
 - [ ] 2e. Form components — `Input`, `Textarea`, `Select`, `Checkbox`,
@@ -87,3 +85,8 @@ Design System's token CSS into the app, mirror it into a Tailwind v4 `@theme`
 layer, self-host Manrope/IBM Plex Mono/Kdam Thmor Pro via `next/font`, and
 install `radix-ui` + `lucide-react` for the component sub-features that
 follow (Completed)
+
+**Frontend — 2c. Brand assets & favicons** - import the three brand SVGs and
+generate the full browser-chrome icon set (tab favicon, Apple touch icon,
+Safari pinned-tab mask icon, theme color) via Next.js metadata file
+conventions (Completed)
