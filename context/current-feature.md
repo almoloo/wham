@@ -1,6 +1,8 @@
 # Current Feature
 
-Nothing in progress — run `/feature` or `/fix` to start one. (A rollback is a spec *type*, not a separate command: `/fix` can write a rollback spec, which `/implement` then applies as a guarded reverse patch.)
+Nothing in progress — run `/feature`, `/fix`, or `/rollback` to start one. (A
+rollback is a spec *type*, not a separate command: `/fix` can write a rollback
+spec, which `/implement` then applies as a guarded reverse patch.)
 
 ## Template
 
@@ -22,6 +24,27 @@ The project builds against four integration gates (`docs/wham-handoff.md` §4). 
 - **Gate 3 — one real circle end to end.** Join → contribute → bid → settle → claim through the real UI, real API, real chain.
 - **Gate 4 — seeded demo chain.** `SeedDemo.s.sol` has run; the demo checklist passes; `/agent` shows real calibration data.
 
+## Remaining sub-features — "Backend — .NET 9 API"
+
+Recorded so this breakdown isn't lost; pass each as the argument to a later
+`/feature` run, in order. Note: the backend build itself belongs to a
+teammate — check with them before starting the next one.
+
+- [x] 1a. Empty solution boilerplate (Completed — see History)
+- [ ] 1b. Host & config — `WHAM_ROLE` switch, `WhamOptions`, `/health/ready`,
+      Serilog, `backend/Dockerfile` matching `docker-compose.yaml`
+- [ ] 1c. Domain entities + EF Core persistence (schema, migrations,
+      `DbContext`, naming convention, `numeric(78,0)` money columns)
+- [ ] 1d. Chain indexer (event polling → projections, idempotency via
+      `(chain_id, tx_hash, log_index)`, `reindex --truncate-projections`)
+- [ ] 1e. Underwriting agent (scoring engine, EIP-712 quote signing,
+      ERC-8004 identity/attestation)
+- [ ] 1f. Keeper workers (`SettlementKeeper`, `CircleStarter`)
+- [ ] 1g. REST API + SIWE auth (endpoints per frontend spec §7, error
+      envelope, JWT-in-httpOnly-cookie flow)
+- [ ] 1h. Notifications (email/Telegram, on-demand-derived reminders)
+
 ## History
 
-*(empty — first entry goes here)*
+**Backend — 1a. Empty solution boilerplate** - stand up the empty `backend/`
+.NET 9 solution: six projects, wired references, no behavior yet (Completed)

@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Wham.Domain\Wham.Domain.csproj" />
+    <ProjectReference Include="..\Wham.Infrastructure\Wham.Infrastructure.csproj" />
+    <ProjectReference Include="..\Wham.Underwriting\Wham.Underwriting.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.20" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Wham.Domain\Wham.Domain.csproj" />
+    <ProjectReference Include="..\Wham.Infrastructure\Wham.Infrastructure.csproj" />
+    <ProjectReference Include="..\Wham.Underwriting\Wham.Underwriting.csproj" />
+    <ProjectReference Include="..\Wham.Indexer\Wham.Indexer.csproj" />
+    <ProjectReference Include="..\Wham.Workers\Wham.Workers.csproj" />
+  </ItemGroup>
+
+</Project>
