@@ -48,3 +48,7 @@ teammate — check with them before starting the next one.
 
 **Backend — 1a. Empty solution boilerplate** - stand up the empty `backend/`
 .NET 9 solution: six projects, wired references, no behavior yet (Completed)
+
+**Frontend — 2a. Empty Next.js boilerplate** - stand up a clean `frontend/`
+Next.js 15 App Router project, stripped of `create-next-app`'s default
+content (Completed)
