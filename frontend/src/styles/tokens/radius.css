@@ -1,0 +1,12 @@
+:root{
+  --radius-xs:6px;
+  --radius-sm:10px;
+  --radius-md:14px;   /* inputs, small tiles */
+  --radius-lg:20px;   /* the Wham card radius */
+  --radius-xl:28px;   /* sheets, hero panels */
+  --radius-2xl:36px;
+  --radius-pill:999px;
+  --border-hairline:1px;
+  --border-emphasis:1.5px;
+  --border-focus:2px;
+}

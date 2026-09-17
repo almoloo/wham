@@ -1,0 +1,160 @@
+/* Wham color system.
+   Palette roots: Persian turquoise (trust/primary), saffron (money in motion),
+   pomegranate (risk/default), lapis (on-chain + agent), warm parchment neutrals. */
+:root{
+  /* ── Neutrals: warm, parchment → ink (never pure grey, never pure black) */
+  --warm-0:#FFFFFF;
+  --warm-50:#FDFBF7;
+  --warm-100:#F7F2EA;
+  --warm-200:#EDE5D9;
+  --warm-300:#DBD0BF;
+  --warm-400:#B5A899;
+  --warm-500:#8C8078;
+  --warm-600:#6B615A;
+  --warm-700:#4A423D;
+  --warm-800:#2E2926;
+  --warm-900:#1B1815;
+
+  /* ── Turquoise (primary) */
+  --turq-50:#E8F6F5;
+  --turq-100:#CDECEA;
+  --turq-200:#9FDBD7;
+  --turq-300:#6AC5BF;
+  --turq-400:#38A9A2;
+  --turq-500:#1B8B85;
+  --turq-600:#14706C;
+  --turq-700:#0F5652;
+  --turq-800:#0B3E3B;
+  --turq-900:#072A28;
+
+  /* ── Saffron (contributions, payouts, highlights) */
+  --saffron-50:#FEF6E7;
+  --saffron-100:#FCE9C2;
+  --saffron-200:#F8D48A;
+  --saffron-300:#F2BB52;
+  --saffron-400:#E8A33D;
+  --saffron-500:#C9832A;
+  --saffron-600:#9C631E;
+
+  /* ── Pomegranate (risk, default, destructive) */
+  --pom-50:#FCEDEB;
+  --pom-100:#F7D5D1;
+  --pom-200:#EFA9A2;
+  --pom-300:#DE6E64;
+  --pom-400:#C4433A;
+  --pom-500:#A2312A;
+  --pom-600:#7B231E;
+
+  /* ── Lapis (on-chain proof, AI agent surfaces) */
+  --lapis-50:#EDF1FA;
+  --lapis-100:#D6E0F4;
+  --lapis-200:#A9BEE6;
+  --lapis-300:#7695D3;
+  --lapis-400:#4A6DBB;
+  --lapis-500:#33529B;
+  --lapis-600:#243B73;
+
+  /* ─────────────── Semantic aliases (use these in product code) */
+  /* Text */
+  --text-strong:var(--warm-900);
+  --text-body:var(--warm-800);
+  --text-muted:var(--warm-600);
+  --text-subtle:var(--warm-500);
+  --text-inverse:var(--warm-50);
+  --text-brand:var(--turq-600);
+  --text-link:var(--turq-600);
+  --text-link-hover:var(--turq-700);
+  --text-onchain:var(--lapis-500);
+
+  /* Surfaces */
+  --surface-page:var(--warm-50);
+  --surface-card:var(--warm-0);
+  --surface-sunken:var(--warm-100);
+  --surface-raised:var(--warm-0);
+  --surface-inverse:var(--turq-800);
+  --surface-brand-quiet:var(--turq-50);
+  --surface-accent-quiet:var(--saffron-50);
+  --surface-agent:var(--lapis-50);
+  --surface-scrim:color-mix(in oklab, var(--warm-900) 46%, transparent);
+
+  /* Borders */
+  --border-subtle:var(--warm-200);
+  --border-default:var(--warm-300);
+  --border-strong:var(--warm-400);
+  --border-brand:var(--turq-300);
+  --border-inverse:color-mix(in oklab, var(--turq-100) 26%, transparent);
+
+  /* Brand actions */
+  --brand-primary:var(--turq-500);
+  --brand-primary-hover:var(--turq-600);
+  --brand-primary-press:var(--turq-700);
+  --brand-on-primary:#FFFFFF;
+  --accent-saffron:var(--saffron-400);
+  --accent-saffron-press:var(--saffron-500);
+  --on-accent-saffron:var(--warm-900);
+
+  /* Status */
+  --status-success:var(--turq-500);
+  --status-success-surface:var(--turq-50);
+  --status-success-text:var(--turq-700);
+  --status-warning:var(--saffron-400);
+  --status-warning-surface:var(--saffron-50);
+  --status-warning-text:var(--saffron-600);
+  --status-danger:var(--pom-400);
+  --status-danger-surface:var(--pom-50);
+  --status-danger-text:var(--pom-500);
+  --status-info:var(--lapis-400);
+  --status-info-surface:var(--lapis-50);
+  --status-info-text:var(--lapis-500);
+  --status-neutral:var(--warm-500);
+  --status-neutral-surface:var(--warm-100);
+  --status-neutral-text:var(--warm-700);
+
+  /* Reputation ladder (score bands) */
+  --score-thin:var(--warm-400);
+  --score-building:var(--saffron-400);
+  --score-solid:var(--turq-400);
+  --score-trusted:var(--turq-600);
+
+  /* Focus */
+  --focus-ring:0 0 0 3px color-mix(in oklab, var(--turq-500) 30%, transparent);
+  --focus-ring-danger:0 0 0 3px color-mix(in oklab, var(--pom-400) 30%, transparent);
+}
+
+/* Dark scope: opt in with data-theme="dark" on any container. Kept warm, not blue-black. */
+[data-theme="dark"]{
+  --text-strong:var(--warm-50);
+  --text-body:var(--warm-100);
+  --text-muted:var(--warm-300);
+  --text-subtle:var(--warm-400);
+  --text-inverse:var(--warm-900);
+  --text-brand:var(--turq-200);
+  --text-link:var(--turq-200);
+  --text-link-hover:var(--turq-100);
+  --text-onchain:var(--lapis-200);
+  --surface-page:var(--turq-900);
+  --surface-card:#0D3330;
+  --surface-sunken:#082523;
+  --surface-raised:#124240;
+  --surface-inverse:var(--warm-50);
+  --surface-brand-quiet:#0F4441;
+  --surface-accent-quiet:#3A2C12;
+  --surface-agent:#152540;
+  --border-subtle:color-mix(in oklab, var(--turq-100) 14%, transparent);
+  --border-default:color-mix(in oklab, var(--turq-100) 24%, transparent);
+  --border-strong:color-mix(in oklab, var(--turq-100) 38%, transparent);
+  --brand-primary:var(--turq-300);
+  --brand-primary-hover:var(--turq-200);
+  --brand-primary-press:var(--turq-100);
+  --brand-on-primary:var(--turq-900);
+  --status-success-surface:#0F4441;
+  --status-success-text:var(--turq-200);
+  --status-warning-surface:#3A2C12;
+  --status-warning-text:var(--saffron-200);
+  --status-danger-surface:#3D1A17;
+  --status-danger-text:var(--pom-200);
+  --status-info-surface:#152540;
+  --status-info-text:var(--lapis-200);
+  --status-neutral-surface:#123A37;
+  --status-neutral-text:var(--warm-200);
+}

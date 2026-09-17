@@ -1,0 +1,20 @@
+:root{
+  /* Shadows are warm-tinted (ink, not black) and always low-contrast:
+     Wham separates surfaces with hairlines first, shadow second. */
+  --shadow-0:none;
+  --shadow-1:0 1px 2px color-mix(in oklab, var(--warm-900) 6%, transparent);
+  --shadow-2:0 2px 8px -2px color-mix(in oklab, var(--warm-900) 10%, transparent);
+  --shadow-3:0 12px 28px -10px color-mix(in oklab, var(--warm-900) 18%, transparent);
+  --shadow-4:0 28px 60px -20px color-mix(in oklab, var(--warm-900) 26%, transparent);
+  --shadow-hairline:inset 0 0 0 1px var(--border-subtle);
+  --shadow-press:inset 0 1px 2px color-mix(in oklab, var(--warm-900) 12%, transparent);
+  --shadow-brand-glow:0 8px 24px -10px color-mix(in oklab, var(--turq-500) 55%, transparent);
+
+  /* Protection gradients: used over photography only, never over flat color */
+  --scrim-bottom:linear-gradient(to top, color-mix(in oklab, var(--warm-900) 78%, transparent), transparent 70%);
+  --scrim-top:linear-gradient(to bottom, color-mix(in oklab, var(--warm-900) 55%, transparent), transparent 65%);
+
+  /* Blur: only for sheets over content and sticky bars */
+  --blur-sheet:blur(20px) saturate(1.1);
+  --blur-bar:blur(12px) saturate(1.05);
+}

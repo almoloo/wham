@@ -4,16 +4,6 @@ Nothing in progress — run `/feature`, `/fix`, or `/rollback` to start one. (A
 rollback is a spec *type*, not a separate command: `/fix` can write a rollback
 spec, which `/implement` then applies as a guarded reverse patch.)
 
-## Template
-
-Every feature entry should carry, before implementation starts:
-
-- **Packages touched:** contracts / backend / frontend / shared
-- **Spec sections:** which parts of `docs/` govern this (e.g. contract §7.8, backend §6.5, frontend §9.9)
-- **Canonical interface impact:** none, or which of the five (see `CLAUDE.md`)
-- **Gates to run:** per package, per `context/ai-interaction.md` step 4
-- **Build steps:** small, reviewable, ordered
-
 ## Roadmap position
 
 The project builds against four integration gates (`docs/wham-handoff.md` §4). Note which gate the current work sits before:
@@ -44,6 +34,45 @@ teammate — check with them before starting the next one.
       envelope, JWT-in-httpOnly-cookie flow)
 - [ ] 1h. Notifications (email/Telegram, on-demand-derived reminders)
 
+## Remaining sub-features — "Frontend — Design system"
+
+Recorded so this breakdown isn't lost; pass each as the argument to a later
+`/feature` run, in order. Source: Claude Design project "Wham Design System"
+(`e202fb25-80ed-4ed5-a4dd-9cab854ba2d4`), read via the `DesignSync` tool.
+
+- [x] 2b. Design tokens, Tailwind theme & fonts (Completed — see History)
+- [ ] 2c. Brand assets & favicons — logo/wordmark SVGs into `public/`, full
+      favicon/app-icon set generated from `assets/logo-mono.svg`, wired into
+      Next.js `metadata.icons`
+- [ ] 2d. Core primitives — `Button`, `IconButton`, `Icon`, `Card`, `Badge`,
+      `Tag`, `Avatar`, `AvatarStack`, `SectionHeader`, `Skeleton`, `Divider`
+- [ ] 2e. Form components — `Input`, `Textarea`, `Select`, `Checkbox`,
+      `Radio`, `Switch` (Radix-backed where interactive)
+- [ ] 2f. Feedback components — `Dialog`, `Toast`, `Banner`, `Spinner`,
+      `Tooltip`, `EmptyState` (Radix `Dialog`/`Tooltip`/`Toast`)
+- [ ] 2g. Navigation components — `Tabs`, `SegmentedControl`, `Breadcrumbs`,
+      `Pagination`, `Menu` (Radix `Tabs`/`DropdownMenu`)
+- [ ] 2h. Data display components — `MoneyAmount`, `OnChainRef`, `StatTile`,
+      `ListRow`, `ProgressBar`, `Table`
+- [ ] 2i. Wham circle/bidding primitives — `RotationRing`, `CircleCard`,
+      `ContributionSchedule`, `BidRow`, `BidTicket`, `AuctionCountdown`,
+      `CollateralMeter`
+- [ ] 2j. Wham agent/reputation/status primitives — `AgentRationale`,
+      `ReputationScore`, `ReputationLadder`, `InsurancePoolBar`,
+      `MemberRotationList`, `DueDateTile`, `RiskCallout`, `StatusChip`,
+      `RiskBandChip`, `MemberIdentity`, `TierChip`, `CountdownPill`,
+      `FillMeter`
+
+## Template
+
+Every feature entry should carry, before implementation starts:
+
+- **Packages touched:** contracts / backend / frontend / shared
+- **Spec sections:** which parts of `docs/` govern this (e.g. contract §7.8, backend §6.5, frontend §9.9)
+- **Canonical interface impact:** none, or which of the five (see `CLAUDE.md`)
+- **Gates to run:** per package, per `context/ai-interaction.md` step 4
+- **Build steps:** small, reviewable, ordered
+
 ## History
 
 **Backend — 1a. Empty solution boilerplate** - stand up the empty `backend/`
@@ -52,3 +81,9 @@ teammate — check with them before starting the next one.
 **Frontend — 2a. Empty Next.js boilerplate** - stand up a clean `frontend/`
 Next.js 15 App Router project, stripped of `create-next-app`'s default
 content (Completed)
+
+**Frontend — 2b. Design tokens, Tailwind theme & fonts** - port the Wham
+Design System's token CSS into the app, mirror it into a Tailwind v4 `@theme`
+layer, self-host Manrope/IBM Plex Mono/Kdam Thmor Pro via `next/font`, and
+install `radix-ui` + `lucide-react` for the component sub-features that
+follow (Completed)

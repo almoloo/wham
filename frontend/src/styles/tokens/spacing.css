@@ -1,0 +1,31 @@
+:root{
+  /* 4px base, with a 2px hairline step and 6/10 half-steps for dense fintech rows */
+  --space-0:0px;
+  --space-05:2px;
+  --space-1:4px;
+  --space-15:6px;
+  --space-2:8px;
+  --space-25:10px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-7:32px;
+  --space-8:40px;
+  --space-9:48px;
+  --space-10:64px;
+  --space-11:80px;
+  --space-12:96px;
+
+  /* Layout */
+  --gutter-mobile:20px;      /* app screens: 20px side padding, never less */
+  --gutter-desktop:32px;
+  --content-max:1160px;
+  --prose-max:64ch;
+  --card-pad:20px;
+  --card-pad-compact:14px;
+  --row-height:56px;         /* list rows */
+  --tap-min:44px;            /* minimum hit target */
+  --appbar-height:56px;
+  --tabbar-height:64px;
+}

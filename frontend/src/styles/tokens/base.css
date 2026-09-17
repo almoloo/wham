@@ -1,0 +1,14 @@
+/* Minimal resets + brand defaults. Kept small on purpose: components carry their own styling. */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--surface-page);color:var(--text-body);font:var(--text-body-m);letter-spacing:var(--tracking-body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,h4{margin:0;color:var(--text-strong);letter-spacing:var(--tracking-title)}
+h1{font:var(--text-display-s)}h2{font:var(--text-title-l)}h3{font:var(--text-title-m)}h4{font:var(--text-title-s)}
+p{margin:0;text-wrap:pretty}
+a{color:var(--text-link);text-decoration:none;border-bottom:1px solid color-mix(in oklab,var(--text-link) 35%,transparent);transition:var(--transition-control)}
+a:hover{color:var(--text-link-hover);border-bottom-color:currentColor}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:none;box-shadow:var(--focus-ring)}
+button{font-family:inherit}
+.wham-tnum{font-variant-numeric:tabular-nums lining-nums}
+.wham-mono{font:var(--text-mono);letter-spacing:var(--tracking-mono)}
+.wham-label{font:var(--text-label);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--text-subtle)}

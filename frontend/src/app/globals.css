@@ -1,1 +1,181 @@
+@import "../styles/tokens/colors.css";
+@import "../styles/tokens/typography.css";
+@import "../styles/tokens/spacing.css";
+@import "../styles/tokens/radius.css";
+@import "../styles/tokens/elevation.css";
+@import "../styles/tokens/motion.css";
+@import "../styles/tokens/base.css";
 @import "tailwindcss";
+
+/*
+ * Font bridge: next/font/google (wired in layout.tsx) self-hosts Manrope,
+ * IBM Plex Mono and Kdam Thmor Pro and exposes each as its own CSS variable
+ * (--font-manrope, --font-plex-mono, --font-kdam) scoped on <html>. This
+ * block is the one place that points the design system's semantic font
+ * tokens at those loaded fonts, instead of the literal "Manrope" /
+ * "IBM Plex Mono" family-name strings tokens/typography.css ships with —
+ * a literal name only resolves if a same-named @font-face exists, and
+ * next/font intentionally does not register one under the plain Google
+ * Fonts name. Placed after the tokens import above so it wins the cascade
+ * for these four properties on :root.
+ */
+:root {
+  --font-core: var(--font-manrope), "Helvetica Neue", system-ui, sans-serif;
+  --font-display: var(--font-manrope), "Helvetica Neue", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-wordmark: var(--font-kdam), var(--font-display);
+}
+
+/*
+ * Tailwind v4 theme aliases.
+ *
+ * The tokens above (imported first, unlayered) remain the single source of
+ * truth — including the `[data-theme="dark"]` override block in colors.css.
+ * Every key below just points a Tailwind theme slot at an existing token via
+ * var(), so utilities resolve through the cascade instead of freezing a
+ * value at build time. This is what keeps `bg-brand-primary` (etc.) correct
+ * in dark mode without a second copy of any value.
+ *
+ * Self-referencing keys (--font-core: var(--font-core), --radius-lg: var(--radius-lg), ...)
+ * are intentional and safe: the token files above declare these on an
+ * unlayered `:root`, which always wins over the Tailwind `theme` layer this
+ * block compiles into, so the "self" reference resolves to the real token,
+ * never to itself.
+ */
+@theme {
+  /* ── Palette scales (guideline swatches, band charts, anything that needs a raw step) */
+  --color-warm-0: var(--warm-0);
+  --color-warm-50: var(--warm-50);
+  --color-warm-100: var(--warm-100);
+  --color-warm-200: var(--warm-200);
+  --color-warm-300: var(--warm-300);
+  --color-warm-400: var(--warm-400);
+  --color-warm-500: var(--warm-500);
+  --color-warm-600: var(--warm-600);
+  --color-warm-700: var(--warm-700);
+  --color-warm-800: var(--warm-800);
+  --color-warm-900: var(--warm-900);
+
+  --color-turq-50: var(--turq-50);
+  --color-turq-100: var(--turq-100);
+  --color-turq-200: var(--turq-200);
+  --color-turq-300: var(--turq-300);
+  --color-turq-400: var(--turq-400);
+  --color-turq-500: var(--turq-500);
+  --color-turq-600: var(--turq-600);
+  --color-turq-700: var(--turq-700);
+  --color-turq-800: var(--turq-800);
+  --color-turq-900: var(--turq-900);
+
+  --color-saffron-50: var(--saffron-50);
+  --color-saffron-100: var(--saffron-100);
+  --color-saffron-200: var(--saffron-200);
+  --color-saffron-300: var(--saffron-300);
+  --color-saffron-400: var(--saffron-400);
+  --color-saffron-500: var(--saffron-500);
+  --color-saffron-600: var(--saffron-600);
+
+  --color-pom-50: var(--pom-50);
+  --color-pom-100: var(--pom-100);
+  --color-pom-200: var(--pom-200);
+  --color-pom-300: var(--pom-300);
+  --color-pom-400: var(--pom-400);
+  --color-pom-500: var(--pom-500);
+  --color-pom-600: var(--pom-600);
+
+  --color-lapis-50: var(--lapis-50);
+  --color-lapis-100: var(--lapis-100);
+  --color-lapis-200: var(--lapis-200);
+  --color-lapis-300: var(--lapis-300);
+  --color-lapis-400: var(--lapis-400);
+  --color-lapis-500: var(--lapis-500);
+  --color-lapis-600: var(--lapis-600);
+
+  /* ── Semantic text roles */
+  --color-text-strong: var(--text-strong);
+  --color-text-body: var(--text-body);
+  --color-text-muted: var(--text-muted);
+  --color-text-subtle: var(--text-subtle);
+  --color-text-inverse: var(--text-inverse);
+  --color-text-brand: var(--text-brand);
+  --color-text-link: var(--text-link);
+  --color-text-link-hover: var(--text-link-hover);
+  --color-text-onchain: var(--text-onchain);
+
+  /* ── Semantic surfaces */
+  --color-surface-page: var(--surface-page);
+  --color-surface-card: var(--surface-card);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-inverse: var(--surface-inverse);
+  --color-surface-brand-quiet: var(--surface-brand-quiet);
+  --color-surface-accent-quiet: var(--surface-accent-quiet);
+  --color-surface-agent: var(--surface-agent);
+  --color-surface-scrim: var(--surface-scrim);
+
+  /* ── Semantic borders */
+  --color-border-subtle: var(--border-subtle);
+  --color-border-default: var(--border-default);
+  --color-border-strong: var(--border-strong);
+  --color-border-brand: var(--border-brand);
+  --color-border-inverse: var(--border-inverse);
+
+  /* ── Brand actions + saffron accent */
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-hover: var(--brand-primary-hover);
+  --color-brand-primary-press: var(--brand-primary-press);
+  --color-brand-on-primary: var(--brand-on-primary);
+  --color-accent-saffron: var(--accent-saffron);
+  --color-accent-saffron-press: var(--accent-saffron-press);
+  --color-on-accent-saffron: var(--on-accent-saffron);
+
+  /* ── Status pairs */
+  --color-status-success: var(--status-success);
+  --color-status-success-surface: var(--status-success-surface);
+  --color-status-success-text: var(--status-success-text);
+  --color-status-warning: var(--status-warning);
+  --color-status-warning-surface: var(--status-warning-surface);
+  --color-status-warning-text: var(--status-warning-text);
+  --color-status-danger: var(--status-danger);
+  --color-status-danger-surface: var(--status-danger-surface);
+  --color-status-danger-text: var(--status-danger-text);
+  --color-status-info: var(--status-info);
+  --color-status-info-surface: var(--status-info-surface);
+  --color-status-info-text: var(--status-info-text);
+  --color-status-neutral: var(--status-neutral);
+  --color-status-neutral-surface: var(--status-neutral-surface);
+  --color-status-neutral-text: var(--status-neutral-text);
+
+  /* ── Reputation bands */
+  --color-score-thin: var(--score-thin);
+  --color-score-building: var(--score-building);
+  --color-score-solid: var(--score-solid);
+  --color-score-trusted: var(--score-trusted);
+
+  /* ── Radii (overrides Tailwind's defaults with the Wham scale) */
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-pill: var(--radius-pill);
+
+  /* ── Fonts */
+  --font-core: var(--font-core);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+  --font-wordmark: var(--font-wordmark);
+
+  /* ── Named layout constants not already covered by Tailwind's numeric spacing scale */
+  --spacing-gutter-mobile: var(--gutter-mobile);
+  --spacing-gutter-desktop: var(--gutter-desktop);
+  --spacing-content-max: var(--content-max);
+  --spacing-prose-max: var(--prose-max);
+  --spacing-card-pad: var(--card-pad);
+  --spacing-card-pad-compact: var(--card-pad-compact);
+  --spacing-row-height: var(--row-height);
+  --spacing-tap-min: var(--tap-min);
+  --spacing-appbar-height: var(--appbar-height);
+  --spacing-tabbar-height: var(--tabbar-height);
+}
