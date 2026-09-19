@@ -34,25 +34,10 @@ teammate — check with them before starting the next one.
       envelope, JWT-in-httpOnly-cookie flow)
 - [ ] 1h. Notifications (email/Telegram, on-demand-derived reminders)
 
-## Remaining sub-features — "Frontend — Design system"
-
-Recorded so this breakdown isn't lost; pass each as the argument to a later
-`/feature` run, in order. Source: Claude Design project "Wham Design System"
-(`e202fb25-80ed-4ed5-a4dd-9cab854ba2d4`), read via the `DesignSync` tool.
-
-- [x] 2b. Design tokens, Tailwind theme & fonts (Completed — see History)
-- [x] 2c. Brand assets & favicons (Completed — see History)
-- [x] 2d. Core primitives (Completed — see History)
-- [x] 2e. Form components (Completed — see History)
-- [x] 2f. Feedback components (Completed — see History)
-- [x] 2g. Navigation components (Completed — see History)
-- [x] 2h. Data display components (Completed — see History)
-- [x] 2i. Wham circle/bidding primitives (Completed — see History)
-- [ ] 2j. Wham agent/reputation/status primitives — `AgentRationale`,
-      `ReputationScore`, `ReputationLadder`, `InsurancePoolBar`,
-      `MemberRotationList`, `RiskCallout`, `RiskBandChip`, `MemberIdentity`,
-      `CountdownPill` (`StatusChip`, `TierChip`, `FillMeter`, `DueDateTile`
-      moved to 2i — already built)
+All "Frontend — Design system" sub-features (2a–2j) are complete — see
+`## History` below. Every `components/wham/*` source component from the
+Claude Design project "Wham Design System" (`e202fb25-80ed-4ed5-a4dd-9cab854ba2d4`)
+now exists in `frontend/src/components/ui/`.
 
 ## Template
 
@@ -113,3 +98,8 @@ presentational components (Completed)
 CircleCard, ContributionSchedule, BidRow, BidTicket, AuctionCountdown,
 CollateralMeter, plus StatusChip/TierChip/FillMeter/DueDateTile pulled
 forward from 2j as CircleCard/ContributionSchedule dependencies (Completed)
+
+**Frontend — 2j. Wham agent/reputation/status primitives** - build
+AgentRationale, ReputationScore, ReputationLadder, InsurancePoolBar,
+MemberRotationList, RiskCallout, RiskBandChip, MemberIdentity, and
+CountdownPill (Completed)
