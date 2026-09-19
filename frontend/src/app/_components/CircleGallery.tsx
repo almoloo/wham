@@ -14,6 +14,7 @@ import {
   StatusChip,
   TierChip,
 } from "@/components/ui";
+import { usdc } from "./usdc";
 
 const STATUSES = ["forming", "active", "bidding", "delinquent", "defaulted", "paid out"];
 
@@ -22,7 +23,7 @@ const STATUSES = ["forming", "active", "bidding", "delinquent", "defaulted", "pa
  * (context/current-feature.md, Frontend 2i).
  */
 export function CircleGallery() {
-  const [discount, setDiscount] = useState(4.5);
+  const [discountBps, setDiscountBps] = useState(450);
   const [joined, setJoined] = useState(false);
 
   return (
@@ -51,7 +52,7 @@ export function CircleGallery() {
       <section className="grid max-w-md gap-3">
         <CircleCard
           name="Tehran Freelancers"
-          contribution={200}
+          contribution={usdc("200")}
           cadence="Monthly"
           members={["Nasrin Amiri", "Reza Karimi", "Leila S"]}
           size={12}
@@ -64,16 +65,16 @@ export function CircleGallery() {
       </section>
 
       <section className="grid gap-2.5">
-        <BidRow name="Omid T" discount={6.5} receives={1870} leading />
-        <BidRow name="Sara B" discount={4.5} receives={1910} you />
-        <BidRow name="Leila S" discount={3} receives={1940} time="2 min ago" />
+        <BidRow name="Omid T" discountBps={650} receives={usdc("1870")} leading />
+        <BidRow name="Sara B" discountBps={450} receives={usdc("1910")} you />
+        <BidRow name="Leila S" discountBps={300} receives={usdc("1940")} time="2 min ago" />
       </section>
 
       <section className="grid max-w-md gap-3">
         <BidTicket
-          pot={2000}
-          discount={discount}
-          onDiscountChange={setDiscount}
+          pot={usdc("2000")}
+          discountBps={discountBps}
+          onDiscountBpsChange={setDiscountBps}
           footer={<Button full variant="accent">Place bid</Button>}
         />
         <AuctionCountdown endsAt={new Date(Date.now() + 90 * 60 * 1000)} />
@@ -81,17 +82,17 @@ export function CircleGallery() {
       </section>
 
       <section className="grid max-w-md gap-3">
-        <CollateralMeter deposit={340} potShare={2000} flatRule={600} />
+        <CollateralMeter deposit={usdc("340")} potShare={usdc("2000")} flatRule={usdc("600")} />
       </section>
 
       <section className="max-w-lg">
         <ContributionSchedule
           rounds={[
-            { round: 1, day: 3, month: "Aug", amount: 200, state: "paid", recipient: "Nasrin Amiri" },
-            { round: 2, day: 3, month: "Sep", amount: 1940, state: "payout", note: "Won with a 3% bid" },
-            { round: 3, day: 3, month: "Oct", amount: 200, state: "due" },
-            { round: 4, day: 3, month: "Nov", amount: 200, state: "overdue" },
-            { round: 5, day: 3, month: "Dec", amount: 200, state: "upcoming" },
+            { round: 1, day: 3, month: "Aug", amount: usdc("200"), state: "paid", recipient: "Nasrin Amiri" },
+            { round: 2, day: 3, month: "Sep", amount: usdc("1940"), state: "payout", note: "Won with a 3% bid" },
+            { round: 3, day: 3, month: "Oct", amount: usdc("200"), state: "due" },
+            { round: 4, day: 3, month: "Nov", amount: usdc("200"), state: "overdue" },
+            { round: 5, day: 3, month: "Dec", amount: usdc("200"), state: "upcoming" },
           ]}
         />
       </section>

@@ -11,18 +11,19 @@ import {
   StatTile,
   Table,
 } from "@/components/ui";
+import { usdc } from "./usdc";
 
 interface Round {
   id: number;
   member: string;
-  amount: number;
+  amount: string;
   status: "paid" | "due";
 }
 
 const ROUNDS: Round[] = [
-  { id: 1, member: "Nasrin Amiri", amount: 200, status: "paid" },
-  { id: 2, member: "Reza Karimi", amount: 200, status: "paid" },
-  { id: 3, member: "Leila S", amount: 200, status: "due" },
+  { id: 1, member: "Nasrin Amiri", amount: usdc("200"), status: "paid" },
+  { id: 2, member: "Reza Karimi", amount: usdc("200"), status: "paid" },
+  { id: 3, member: "Leila S", amount: usdc("200"), status: "due" },
 ];
 
 /**
@@ -35,12 +36,12 @@ export function DataGallery() {
   return (
     <>
       <section className="flex flex-wrap items-end gap-6">
-        <MoneyAmount value={950} role="hero" />
-        <MoneyAmount value={200} role="primary" unit="USDC" />
-        <MoneyAmount value={42.5} role="ledger" decimals={2} />
-        <MoneyAmount value={18} sign tone="positive" />
-        <MoneyAmount value={-6} sign tone="negative" />
-        <MoneyAmount value={1000} strikethrough muted />
+        <MoneyAmount value={usdc("950")} role="hero" />
+        <MoneyAmount value={usdc("200")} role="primary" unit="USDC" />
+        <MoneyAmount value={usdc("42.5")} role="ledger" />
+        <MoneyAmount value={usdc("18")} sign tone="positive" />
+        <MoneyAmount value={usdc("-6")} sign tone="negative" />
+        <MoneyAmount value={usdc("1000")} strikethrough muted />
       </section>
 
       <section className="flex flex-wrap items-center gap-2.5">
@@ -49,7 +50,7 @@ export function DataGallery() {
       </section>
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatTile label="Pot size" value={<MoneyAmount value={2400} role="inline" />} sub="12 members" icon="wallet" />
+        <StatTile label="Pot size" value={<MoneyAmount value={usdc("2400")} role="inline" />} sub="12 members" icon="wallet" />
         <StatTile label="Rounds left" value="4 of 12" tone="brand" />
         <StatTile label="Agent risk" value="Low" tone="agent" icon="shield-check" align="center" />
         <StatTile label="Insurance draw" value="0" tone="danger" sub="No claims this round" />

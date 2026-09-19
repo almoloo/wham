@@ -1,5 +1,6 @@
 import type { HTMLAttributes, ReactNode } from "react";
 import { cx } from "@/lib/cx";
+import { toBigInt } from "@/lib/money";
 import { AvatarStack, type StackMember } from "./AvatarStack";
 import { Button } from "./Button";
 import { Card } from "./Card";
@@ -10,7 +11,8 @@ import { TierChip, type TierChipProps } from "./TierChip";
 
 interface CircleCardCta {
   state: "join" | "lowScore" | "lowBalance" | "full" | "member" | "guest";
-  amount?: number;
+  /** How much the member is short by, in base units (decimal string). */
+  amount?: string;
   needScore?: number;
   onClick?: () => void;
   onDetail?: () => void;
@@ -47,7 +49,7 @@ function Cta({ cta }: { cta?: CircleCardCta }): ReactNode {
   if (state === "lowBalance") {
     return (
       <Button full variant="secondary" onClick={onDetail ?? onClick}>
-        You&apos;d need <MoneyAmount value={amount ?? 0} unit="USDC" decimals={2} role="inline" className="ms-1" />
+        You&apos;d need <MoneyAmount value={amount ?? "0"} unit="USDC" decimals={2} round="up" role="inline" className="ms-1" />
       </Button>
     );
   }
@@ -80,8 +82,8 @@ function Cta({ cta }: { cta?: CircleCardCta }): ReactNode {
 
 export interface CircleCardProps extends HTMLAttributes<HTMLDivElement> {
   name: string;
-  /** Fixed contribution per member per round. */
-  contribution: number;
+  /** Fixed contribution per member per round, in base units (decimal string). */
+  contribution: string;
   /** "Weekly" | "Fortnightly" | "Monthly". */
   cadence?: string;
   members?: Array<string | StackMember>;
@@ -91,13 +93,13 @@ export interface CircleCardProps extends HTMLAttributes<HTMLDivElement> {
   /** Confirmed members so far, for the FillMeter. Defaults to members.length. */
   filled?: number;
   /** Pot per round; computed as contribution × size when omitted. */
-  pot?: number;
+  pot?: string;
   /** Status string, rendered via StatusChip, e.g. "forming" / "active" / "full". */
   status?: string;
   /** Required (browse) or earned (profile) tier — same visual either way. */
   tier?: TierChipProps["tier"];
   /** Signed-in personalised deposit estimate. */
-  deposit?: number;
+  deposit?: string;
   /** Shown instead of deposit when signed out, e.g. 1.5 → "Deposit from 1.5× contribution". */
   depositMultiplier?: number;
   /** Relative start date string, e.g. "in 6 days". */
@@ -149,17 +151,17 @@ export function CircleCard({
 
       <div className="grid gap-0.5 rounded-md bg-surface-sunken px-3.5 py-3">
         <span className="wham-label">Pot per round</span>
-        <MoneyAmount value={pot ?? contribution * seats} unit="USDC" decimals={2} role="hero" />
+        <MoneyAmount value={pot ?? toBigInt(contribution) * BigInt(seats)} unit="USDC" decimals={2} round="down" role="hero" />
       </div>
 
       <span className="text-text-muted" style={{ font: "var(--text-body-s)" }}>
-        <MoneyAmount value={contribution} unit="USDC" decimals={2} role="inline" /> / round · {seats} members ·{" "}
+        <MoneyAmount value={contribution} unit="USDC" decimals={2} round="up" role="inline" /> / round · {seats} members ·{" "}
         {cadence}
       </span>
 
       {deposit != null ? (
         <span className="text-text-muted" style={{ font: "var(--text-body-s)" }}>
-          Your deposit: ~<MoneyAmount value={deposit} unit="USDC" decimals={2} role="inline" tone="accent" />
+          Your deposit: ~<MoneyAmount value={deposit} unit="USDC" decimals={2} round="up" role="inline" tone="accent" />
         </span>
       ) : depositMultiplier ? (
         <span className="text-text-muted" style={{ font: "var(--text-body-s)" }}>

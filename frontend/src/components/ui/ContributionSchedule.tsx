@@ -9,7 +9,8 @@ export interface ScheduleRound {
   round: number;
   day: number | string;
   month: string;
-  amount: number;
+  /** Base units (decimal string). */
+  amount: string;
   /** paid | due | overdue | upcoming | payout */
   state?: "paid" | "due" | "overdue" | "upcoming" | "payout";
   /** Who receives the pot that round. */

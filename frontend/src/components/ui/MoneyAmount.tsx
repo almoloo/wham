@@ -1,5 +1,6 @@
 import type { CSSProperties, HTMLAttributes } from "react";
 import { cx } from "@/lib/cx";
+import { formatMoney, toBigInt, type FormatMoneyOptions, type Rounding } from "@/lib/money";
 
 const SIZE_FONT: Record<"sm" | "md" | "lg" | "xl", string> = {
   sm: "var(--weight-semibold) var(--size-body-s)/1.2 var(--font-core)",
@@ -24,13 +25,11 @@ const TONE_COLOR: Record<NonNullable<MoneyAmountProps["tone"]>, string> = {
   inverse: "var(--text-inverse)",
 };
 
-function format(value: number, decimals: number) {
-  if (!isFinite(value)) return String(value);
-  return value.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
-}
-
-export interface MoneyAmountProps extends HTMLAttributes<HTMLSpanElement> {
-  value: number | string;
+interface MoneyAmountBaseProps extends HTMLAttributes<HTMLSpanElement> {
+  /** Base units (uint256): a decimal string as sent over the wire, or a bigint. Never a JS number. */
+  value: string | bigint;
+  /** Token decimals used to turn base units into a figure. Default 6 (USDC). */
+  tokenDecimals?: number;
   /** Symbol before the figure. Default "$". */
   currency?: string;
   /** Trailing unit in small muted type, e.g. "USDC". */
@@ -38,7 +37,6 @@ export interface MoneyAmountProps extends HTMLAttributes<HTMLSpanElement> {
   size?: "sm" | "md" | "lg" | "xl";
   /** Semantic role — sets size for you. "hero" largest on the page, "primary" acting-on amount, "inline" matches body text, "ledger" right-aligned tabular for table columns. */
   role?: "hero" | "primary" | "inline" | "ledger";
-  decimals?: number;
   tone?: "default" | "muted" | "positive" | "negative" | "accent" | "inverse";
   /** Show a leading + / − for deltas. */
   sign?: boolean;
@@ -48,14 +46,24 @@ export interface MoneyAmountProps extends HTMLAttributes<HTMLSpanElement> {
   strikethrough?: boolean;
 }
 
+/**
+ * Shows the exact amount by default. To show fewer digits, pass `decimals` together with `round`:
+ * "up" for amounts a member owes (never show less than they must pay), "down" for amounts they
+ * receive (never promise more than they get). The pair is enforced by the type.
+ */
+export type MoneyAmountProps = MoneyAmountBaseProps &
+  ({ decimals?: undefined; round?: undefined } | { decimals: number; round: Rounding });
+
 /** Currency figure with tabular lining numerals — the only sanctioned way to render money in Wham. */
 export function MoneyAmount({
   value,
+  tokenDecimals,
   currency = "$",
   unit,
   size = "md",
   role,
-  decimals = 0,
+  decimals,
+  round,
   tone = "default",
   sign = false,
   muted = false,
@@ -66,8 +74,12 @@ export function MoneyAmount({
 }: MoneyAmountProps) {
   const resolvedSize = role && role !== "inline" ? ROLE_SIZE[role] ?? size : size;
   const resolvedTone = muted ? "muted" : tone;
-  const n = Number(value);
-  const prefix = sign && n > 0 ? "+" : sign && n < 0 ? "−" : "";
+  const amount = toBigInt(value);
+  const magnitude = amount < 0n ? -amount : amount;
+  // decimals/round are a pair at the type level; formatMoney re-checks it at runtime.
+  const text = formatMoney(magnitude, { tokenDecimals, decimals, round } as FormatMoneyOptions);
+  // A negative that rounds to nothing shows no sign: "−$0.00" would read as a real amount.
+  const prefix = !sign ? "" : amount > 0n ? "+" : amount < 0n && /[1-9]/.test(text) ? "−" : "";
 
   const spanStyle: CSSProperties = {
     font: SIZE_FONT[resolvedSize],
@@ -87,7 +99,7 @@ export function MoneyAmount({
     >
       {prefix}
       {currency}
-      {format(Math.abs(n), decimals)}
+      {text}
       {unit ? <span className="ms-[5px] text-text-muted" style={{ font: "var(--text-ui-s)" }}>{unit}</span> : null}
     </span>
   );

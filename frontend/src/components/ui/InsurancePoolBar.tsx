@@ -1,38 +1,44 @@
 import type { HTMLAttributes } from "react";
 import { cx } from "@/lib/cx";
+import { poolFill } from "@/lib/pool";
 import { Icon } from "./Icon";
 import { MoneyAmount } from "./MoneyAmount";
 
 export interface InsurancePoolBarProps extends HTMLAttributes<HTMLDivElement> {
-  balance: number;
+  /** Base units (decimal string). */
+  balance: string;
   /** Target balance the pool is sized against. */
-  target?: number;
+  target?: string;
   /** How many missed contributions the balance can absorb. */
   covers?: number;
   /** Per-member per-round amount that funds the pool. */
-  contributionsPerRound?: number;
+  contributionsPerRound?: string;
 }
 
 /** Status of the shared buffer that absorbs a default: balance, health, and how many misses it covers. */
 export function InsurancePoolBar({ balance, target, covers, contributionsPerRound, className, ...rest }: InsurancePoolBarProps) {
-  const pct = Math.max(0, Math.min(1, Number(balance) / Number(target || balance)));
-  const healthy = pct >= 0.6;
+  const { state, bps, healthy } = poolFill(balance, target);
+  // Without a target there is nothing to measure against: show the balance, but no health claim and no fill.
+  const known = state !== "unknown";
   const toneClass = healthy ? "bg-status-success" : "bg-status-warning";
+  const iconColor = !known ? "var(--text-muted)" : healthy ? "var(--status-success)" : "var(--status-warning)";
 
   return (
     <div className={cx("grid gap-3", className)} {...rest}>
       <div className="flex items-center gap-2.5">
-        <Icon name="shield-check" size={18} color={healthy ? "var(--status-success)" : "var(--status-warning)"} />
+        <Icon name="shield-check" size={18} color={iconColor} />
         <span className="flex-1 text-text-strong" style={{ font: "var(--text-ui-s)" }}>
           Insurance pool
         </span>
         <MoneyAmount value={balance} size="md" />
       </div>
       <div className="h-2.5 overflow-hidden rounded-pill bg-surface-sunken">
-        <div
-          className={cx("h-full rounded-pill transition-[width] duration-300 ease-out", toneClass)}
-          style={{ width: `${pct * 100}%` }}
-        />
+        {known ? (
+          <div
+            className={cx("h-full rounded-pill transition-[width] duration-300 ease-out", toneClass)}
+            style={{ width: `${bps / 100}%` }}
+          />
+        ) : null}
       </div>
       <span className="text-text-muted" style={{ font: "var(--text-body-s)" }}>
         {covers != null ? `Covers ${covers} missed contribution${covers === 1 ? "" : "s"} before members are exposed. ` : ""}

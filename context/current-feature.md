@@ -108,3 +108,8 @@ CountdownPill (Completed)
 Foundry project (config, pinned OZ/forge-std, script skeletons, ABI export,
 README, CI) with no protocol contracts, so the Solidity teammate can start
 (Completed)
+
+**Fix — Frontend money handling** - make `MoneyAmount` and every money-bearing
+design-system component bigint/wire-string based with an explicit rounding
+direction, take bid discounts as integer bps, make the pool bar NaN-safe, and
+add Vitest with the first money tests (Completed)

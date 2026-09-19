@@ -12,6 +12,7 @@ import {
   RiskBandChip,
   RiskCallout,
 } from "@/components/ui";
+import { usdc } from "./usdc";
 
 const BANDS = ["A", "B", "C", "D"] as const;
 
@@ -59,14 +60,14 @@ export function AgentGallery() {
       </section>
 
       <section className="grid max-w-md gap-3">
-        <InsurancePoolBar balance={3400} target={5000} covers={4} contributionsPerRound={6} />
+        <InsurancePoolBar balance={usdc("3400")} target={usdc("5000")} covers={4} contributionsPerRound={usdc("6")} />
       </section>
 
       <section className="max-w-lg">
         <MemberRotationList
           members={[
-            { name: "Nasrin Amiri", round: 1, state: "done", received: 1940, month: "Aug" },
-            { name: "Reza Karimi", round: 2, state: "current", received: 1910, note: "Took a 4.5% discount" },
+            { name: "Nasrin Amiri", round: 1, state: "done", received: usdc("1940"), month: "Aug" },
+            { name: "Reza Karimi", round: 2, state: "current", received: usdc("1910"), note: "Took a 4.5% discount" },
             { name: "Sara B", round: 3, state: "upcoming", month: "Oct", you: true },
             { name: "Leila S", round: 4, state: "upcoming", month: "Nov" },
           ]}

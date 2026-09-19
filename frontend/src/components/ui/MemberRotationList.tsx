@@ -11,7 +11,7 @@ export interface RotationMember {
   /** done = already took the pot, current = this round, upcoming = waiting. */
   state?: "done" | "current" | "upcoming";
   /** Amount they received (after any bid discount). */
-  received?: number;
+  received?: string;
   /** Month of their payout, e.g. "Sep". */
   month?: string;
   /** Free-text clause, e.g. "Took a 4% discount". */
@@ -58,7 +58,7 @@ export function MemberRotationList({ members, className, ...rest }: MemberRotati
                 {m.note || (m.month ? `Payout ${m.month}` : "")}
               </span>
             </div>
-            {m.received != null ? <MoneyAmount value={m.received} size="sm" tone={isNow ? "accent" : "muted"} /> : null}
+            {m.received != null ? <MoneyAmount value={m.received} size="sm" tone={isNow ? "accent" : "muted"} decimals={0} round="down" /> : null}
             {isNow ? (
               <Badge tone="warning" size="sm">
                 This round

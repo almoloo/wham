@@ -1,15 +1,16 @@
 import type { HTMLAttributes } from "react";
 import { cx } from "@/lib/cx";
+import { ratioBps } from "@/lib/money";
 import { Icon } from "./Icon";
 import { MoneyAmount } from "./MoneyAmount";
 
 export interface CollateralMeterProps extends HTMLAttributes<HTMLDivElement> {
-  /** Amount this member must lock. */
-  deposit: number;
+  /** Amount this member must lock, in base units (decimal string). */
+  deposit: string;
   /** The pot they will eventually receive — the deposit is expressed as a share of this. */
-  potShare: number;
+  potShare: string;
   /** Optional comparison: the deposit a flat rule would demand. Renders as a marker line. */
-  flatRule?: number;
+  flatRule?: string;
   label?: string;
   /** Shows the sparkles glyph indicating the agent set this number. Default true. */
   agentPriced?: boolean;
@@ -28,9 +29,9 @@ export function CollateralMeter({
   className,
   ...rest
 }: CollateralMeterProps) {
-  const base = potShare || deposit;
-  const ratio = Math.max(0, Math.min(1, deposit / base));
-  const flatRatio = flatRule != null ? Math.max(0, Math.min(1, flatRule / base)) : null;
+  // Integer basis points, clamped to 0..10_000. A zero pot share gives 0, not a made-up 100%.
+  const ratio = ratioBps(deposit, potShare);
+  const flatRatio = flatRule != null ? ratioBps(flatRule, potShare) : null;
 
   return (
     <div className={cx("grid grid-cols-[minmax(0,1fr)] gap-3", className)} {...rest}>
@@ -43,16 +44,16 @@ export function CollateralMeter({
           <MoneyAmount value={deposit} size="lg" />
         </div>
         <span className="text-right text-text-muted" style={{ font: "var(--text-body-s)" }}>
-          {Math.round(ratio * 100)}% of your <MoneyAmount value={potShare} size="sm" tone="muted" /> pot share
+          {Math.round(ratio / 100)}% of your <MoneyAmount value={potShare} size="sm" tone="muted" /> pot share
         </span>
       </div>
       <div className="relative h-3 rounded-pill bg-surface-sunken">
         <div
           className="h-full rounded-pill bg-brand-primary [transition:width_var(--duration-slow)_var(--ease-out)]"
-          style={{ width: `${ratio * 100}%` }}
+          style={{ width: `${ratio / 100}%` }}
         />
         {flatRatio != null ? (
-          <div className="absolute -top-[5px] -bottom-[5px] w-0.5 bg-warm-500" style={{ left: `${flatRatio * 100}%` }} />
+          <div className="absolute -top-[5px] -bottom-[5px] w-0.5 bg-warm-500" style={{ left: `${flatRatio / 100}%` }} />
         ) : null}
       </div>
       {flatRule != null ? (

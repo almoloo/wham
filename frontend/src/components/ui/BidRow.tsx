@@ -1,15 +1,16 @@
 import type { HTMLAttributes } from "react";
 import { cx } from "@/lib/cx";
+import { formatBps } from "@/lib/money";
 import { Avatar, type AvatarBand } from "./Avatar";
 import { Badge } from "./Badge";
 import { MoneyAmount } from "./MoneyAmount";
 
 export interface BidRowProps extends HTMLAttributes<HTMLDivElement> {
   name: string;
-  /** Discount percentage bid, e.g. 4.5. */
-  discount: number;
-  /** Net amount the bidder would receive after the discount. */
-  receives?: number;
+  /** Discount bid in basis points (integer, 10_000 = 100%): 450 is a 4.5% bid. */
+  discountBps: number;
+  /** Net amount the bidder would receive after the discount, in base units (decimal string). */
+  receives?: string;
   band?: AvatarBand;
   /** Highest bid so far — turquoise quiet fill and a "Leading" badge. */
   leading?: boolean;
@@ -20,7 +21,7 @@ export interface BidRowProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /** One bid in the live auction: who, what discount they accepted, what they'd receive. */
-export function BidRow({ name, discount, receives, band, leading = false, you = false, time, className, ...rest }: BidRowProps) {
+export function BidRow({ name, discountBps, receives, band, leading = false, you = false, time, className, ...rest }: BidRowProps) {
   return (
     <div
       className={cx(
@@ -44,11 +45,11 @@ export function BidRow({ name, discount, receives, band, leading = false, you = 
       {leading ? <Badge tone="brand">Leading</Badge> : null}
       <div className="grid gap-0.5 text-right">
         <span className="wham-tnum text-text-strong" style={{ font: "var(--weight-bold) 17px/1.1 var(--font-core)" }}>
-          {discount.toFixed(1)}%
+          {formatBps(discountBps)}%
         </span>
         {receives != null ? (
           <span className="text-text-muted" style={{ font: "var(--text-body-s)" }}>
-            receives <MoneyAmount value={receives} size="sm" tone="muted" />
+            receives <MoneyAmount value={receives} size="sm" tone="muted" decimals={0} round="down" />
           </span>
         ) : null}
       </div>
