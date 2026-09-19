@@ -17,6 +17,7 @@ import {
   Skeleton,
   Tag,
 } from "@/components/ui";
+import { FeedbackGallery } from "./_components/FeedbackGallery";
 import { FormsGallery } from "./_components/FormsGallery";
 
 const SWATCHES = [
@@ -170,6 +171,14 @@ export default function Home() {
       >
         <h2>Form components</h2>
         <FormsGallery />
+      </div>
+
+      <div
+        className="mx-auto mt-6 flex max-w-content-max flex-col gap-6 rounded-lg border border-border-subtle bg-surface-card p-card-pad"
+        style={{ boxShadow: "var(--shadow-2)" }}
+      >
+        <h2>Feedback components</h2>
+        <FeedbackGallery />
       </div>
     </main>
   );

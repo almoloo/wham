@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from "react";
+import { forwardRef, type ButtonHTMLAttributes } from "react";
 import { cx } from "@/lib/cx";
 import { Icon, type IconName } from "./Icon";
 
@@ -25,18 +25,13 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 /** Circular icon-only control for app bars, row affordances and dismissals. Always carries a label for a11y. */
-export function IconButton({
-  icon,
-  label,
-  variant = "ghost",
-  size = "md",
-  disabled = false,
-  className,
-  type = "button",
-  ...rest
-}: IconButtonProps) {
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
+  { icon, label, variant = "ghost", size = "md", disabled = false, className, type = "button", ...rest },
+  ref
+) {
   return (
     <button
+      ref={ref}
       type={type}
       aria-label={label}
       title={label}
@@ -53,4 +48,4 @@ export function IconButton({
       <Icon name={icon} size={size === "sm" ? 18 : 20} />
     </button>
   );
-}
+});

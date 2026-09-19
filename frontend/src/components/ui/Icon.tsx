@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Users,
   Wallet,
+  X,
   type LucideIcon,
 } from "lucide-react";
 
@@ -43,6 +44,7 @@ const ICONS = {
   "trending-up": TrendingUp,
   users: Users,
   wallet: Wallet,
+  x: X,
 } as const satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof ICONS;

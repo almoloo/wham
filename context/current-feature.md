@@ -44,8 +44,7 @@ Recorded so this breakdown isn't lost; pass each as the argument to a later
 - [x] 2c. Brand assets & favicons (Completed — see History)
 - [x] 2d. Core primitives (Completed — see History)
 - [x] 2e. Form components (Completed — see History)
-- [ ] 2f. Feedback components — `Dialog`, `Toast`, `Banner`, `Spinner`,
-      `Tooltip`, `EmptyState` (Radix `Dialog`/`Tooltip`/`Toast`)
+- [x] 2f. Feedback components (Completed — see History)
 - [ ] 2g. Navigation components — `Tabs`, `SegmentedControl`, `Breadcrumbs`,
       `Pagination`, `Menu` (Radix `Tabs`/`DropdownMenu`)
 - [ ] 2h. Data display components — `MoneyAmount`, `OnChainRef`, `StatTile`,
@@ -99,3 +98,8 @@ Checkbox, RadioGroup/RadioGroupItem, and Switch, using Radix UI for
 Checkbox/RadioGroup/Switch to fix a real keyboard-focus gap in the source
 prototype, keeping Select native per the design system's own stated intent
 (Completed)
+
+**Frontend — 2f. Feedback components** - build Dialog, Toast, Banner,
+Spinner, Tooltip, and EmptyState, using Radix UI for Dialog and Tooltip to
+fix real focus-trap/escape/aria-describedby gaps, keeping Toast
+presentational-only since no toast-triggering system exists yet (Completed)
