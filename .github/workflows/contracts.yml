@@ -1,0 +1,53 @@
+name: contracts
+
+on:
+  push:
+    paths:
+      - "contracts/**"
+      - "shared/**"
+      - ".github/workflows/contracts.yml"
+  pull_request:
+    paths:
+      - "contracts/**"
+      - "shared/**"
+      - ".github/workflows/contracts.yml"
+
+concurrency:
+  group: contracts-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  FOUNDRY_PROFILE: ci
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contracts
+    steps:
+      # lib/ holds forge-std and OpenZeppelin as submodules.
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      # Pinned to the version the scaffold was verified against; bump deliberately.
+      - uses: foundry-rs/foundry-toolchain@v1.9.1
+        with:
+          version: v1.8.1
+
+      - name: Format
+        run: forge fmt --check
+
+      - name: Build
+        run: forge build --sizes
+
+      - name: Test
+        run: forge test -vvv
+
+      # Foundry has no post-build hook, so shared/abi is only current if someone ran the export.
+      - name: shared/abi is current
+        run: ./script/export-abi.sh --check

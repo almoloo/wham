@@ -32,7 +32,7 @@ contracts/          Foundry — Solidity, tests, deploy + seed scripts
 backend/            .NET 9 — src/Wham.{Api,Domain,Infrastructure,Underwriting,Indexer,Workers}
 frontend/           Next.js 15 App Router
 shared/
-  abi/              built by `forge build`, committed, consumed by backend + frontend
+  abi/              written by `script/export-abi.sh` after `forge build`, committed, consumed by backend + frontend
   deployments/      <chainId>.json written by the deploy script, read by both apps
 context/            project-overview, coding-standards, ai-interaction, current-feature
 docs/               the four specs above + handoff
@@ -45,7 +45,8 @@ docker-compose.yaml single-stack deploy (Coolify)
 
 ```bash
 # ── Contracts (cd contracts) ────────────────────────────────────────────
-forge build                        # compile; also refreshes ../shared/abi
+forge build                        # compile (does NOT touch ../shared/abi)
+forge build && ./script/export-abi.sh   # compile + refresh ../shared/abi (CI runs it with --check)
 forge test                         # all tests
 forge test --match-test testJoin -vvv
 forge test --match-path test/Settlement.t.sol

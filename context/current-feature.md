@@ -103,3 +103,8 @@ forward from 2j as CircleCard/ContributionSchedule dependencies (Completed)
 AgentRationale, ReputationScore, ReputationLadder, InsurancePoolBar,
 MemberRotationList, RiskCallout, RiskBandChip, MemberIdentity, and
 CountdownPill (Completed)
+
+**Contracts — 3a. Empty Foundry boilerplate** - stand up an empty `contracts/`
+Foundry project (config, pinned OZ/forge-std, script skeletons, ABI export,
+README, CI) with no protocol contracts, so the Solidity teammate can start
+(Completed)

@@ -10,6 +10,7 @@
 contracts/cache/
 contracts/out/
 contracts/broadcast/*/31337/
+shared/deployments/31337.json
 contracts/.env
 
 # Backend (.NET)
