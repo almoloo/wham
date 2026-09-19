@@ -46,8 +46,7 @@ Recorded so this breakdown isn't lost; pass each as the argument to a later
 - [x] 2e. Form components (Completed — see History)
 - [x] 2f. Feedback components (Completed — see History)
 - [x] 2g. Navigation components (Completed — see History)
-- [ ] 2h. Data display components — `MoneyAmount`, `OnChainRef`, `StatTile`,
-      `ListRow`, `ProgressBar`, `Table`
+- [x] 2h. Data display components (Completed — see History)
 - [ ] 2i. Wham circle/bidding primitives — `RotationRing`, `CircleCard`,
       `ContributionSchedule`, `BidRow`, `BidTicket`, `AuctionCountdown`,
       `CollateralMeter`
@@ -107,3 +106,7 @@ presentational-only since no toast-triggering system exists yet (Completed)
 Breadcrumbs, Pagination, and Menu, using Radix UI (Tabs, ToggleGroup for
 SegmentedControl, DropdownMenu) to fix real keyboard-navigation gaps in
 the source prototype (Completed)
+
+**Frontend — 2h. Data display components** - build MoneyAmount, OnChainRef,
+StatTile, ListRow, ProgressBar, and Table as typed, Tailwind + token-driven
+presentational components (Completed)
