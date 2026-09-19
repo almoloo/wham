@@ -1,7 +1,9 @@
 import {
   AlertTriangle,
   CalendarDays,
+  Check,
   CheckCircle2,
+  ChevronDown,
   ChevronLeft,
   Gavel,
   Info,
@@ -26,7 +28,9 @@ import {
 const ICONS = {
   "alert-triangle": AlertTriangle,
   "calendar-days": CalendarDays,
+  check: Check,
   "check-circle-2": CheckCircle2,
+  "chevron-down": ChevronDown,
   "chevron-left": ChevronLeft,
   gavel: Gavel,
   info: Info,

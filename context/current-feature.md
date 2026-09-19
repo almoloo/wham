@@ -43,8 +43,7 @@ Recorded so this breakdown isn't lost; pass each as the argument to a later
 - [x] 2b. Design tokens, Tailwind theme & fonts (Completed — see History)
 - [x] 2c. Brand assets & favicons (Completed — see History)
 - [x] 2d. Core primitives (Completed — see History)
-- [ ] 2e. Form components — `Input`, `Textarea`, `Select`, `Checkbox`,
-      `Radio`, `Switch` (Radix-backed where interactive)
+- [x] 2e. Form components (Completed — see History)
 - [ ] 2f. Feedback components — `Dialog`, `Toast`, `Banner`, `Spinner`,
       `Tooltip`, `EmptyState` (Radix `Dialog`/`Tooltip`/`Toast`)
 - [ ] 2g. Navigation components — `Tabs`, `SegmentedControl`, `Breadcrumbs`,
@@ -94,3 +93,9 @@ conventions (Completed)
 primitives (Icon, Divider, Skeleton, Badge, Tag, IconButton, Button, Avatar,
 AvatarStack, Card, SectionHeader) as typed, Tailwind + token-driven
 components with a curated static icon set (Completed)
+
+**Frontend — 2e. Form components** - build Input, Textarea, Select,
+Checkbox, RadioGroup/RadioGroupItem, and Switch, using Radix UI for
+Checkbox/RadioGroup/Switch to fix a real keyboard-focus gap in the source
+prototype, keeping Select native per the design system's own stated intent
+(Completed)
