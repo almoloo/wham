@@ -17,6 +17,7 @@ import {
   Skeleton,
   Tag,
 } from "@/components/ui";
+import { CircleGallery } from "./_components/CircleGallery";
 import { DataGallery } from "./_components/DataGallery";
 import { FeedbackGallery } from "./_components/FeedbackGallery";
 import { FormsGallery } from "./_components/FormsGallery";
@@ -197,6 +198,14 @@ export default function Home() {
       >
         <h2>Data display components</h2>
         <DataGallery />
+      </div>
+
+      <div
+        className="mx-auto mt-6 flex max-w-content-max flex-col gap-6 rounded-lg border border-border-subtle bg-surface-card p-card-pad"
+        style={{ boxShadow: "var(--shadow-2)" }}
+      >
+        <h2>Circle &amp; bidding primitives</h2>
+        <CircleGallery />
       </div>
     </main>
   );

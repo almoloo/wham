@@ -47,14 +47,12 @@ Recorded so this breakdown isn't lost; pass each as the argument to a later
 - [x] 2f. Feedback components (Completed — see History)
 - [x] 2g. Navigation components (Completed — see History)
 - [x] 2h. Data display components (Completed — see History)
-- [ ] 2i. Wham circle/bidding primitives — `RotationRing`, `CircleCard`,
-      `ContributionSchedule`, `BidRow`, `BidTicket`, `AuctionCountdown`,
-      `CollateralMeter`
+- [x] 2i. Wham circle/bidding primitives (Completed — see History)
 - [ ] 2j. Wham agent/reputation/status primitives — `AgentRationale`,
       `ReputationScore`, `ReputationLadder`, `InsurancePoolBar`,
-      `MemberRotationList`, `DueDateTile`, `RiskCallout`, `StatusChip`,
-      `RiskBandChip`, `MemberIdentity`, `TierChip`, `CountdownPill`,
-      `FillMeter`
+      `MemberRotationList`, `RiskCallout`, `RiskBandChip`, `MemberIdentity`,
+      `CountdownPill` (`StatusChip`, `TierChip`, `FillMeter`, `DueDateTile`
+      moved to 2i — already built)
 
 ## Template
 
@@ -110,3 +108,8 @@ the source prototype (Completed)
 **Frontend — 2h. Data display components** - build MoneyAmount, OnChainRef,
 StatTile, ListRow, ProgressBar, and Table as typed, Tailwind + token-driven
 presentational components (Completed)
+
+**Frontend — 2i. Wham circle/bidding primitives** - build RotationRing,
+CircleCard, ContributionSchedule, BidRow, BidTicket, AuctionCountdown,
+CollateralMeter, plus StatusChip/TierChip/FillMeter/DueDateTile pulled
+forward from 2j as CircleCard/ContributionSchedule dependencies (Completed)
