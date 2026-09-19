@@ -19,6 +19,7 @@ import {
 } from "@/components/ui";
 import { FeedbackGallery } from "./_components/FeedbackGallery";
 import { FormsGallery } from "./_components/FormsGallery";
+import { NavigationGallery } from "./_components/NavigationGallery";
 
 const SWATCHES = [
   { label: "brand-primary", className: "bg-brand-primary" },
@@ -179,6 +180,14 @@ export default function Home() {
       >
         <h2>Feedback components</h2>
         <FeedbackGallery />
+      </div>
+
+      <div
+        className="mx-auto mt-6 flex max-w-content-max flex-col gap-6 rounded-lg border border-border-subtle bg-surface-card p-card-pad"
+        style={{ boxShadow: "var(--shadow-2)" }}
+      >
+        <h2>Navigation components</h2>
+        <NavigationGallery />
       </div>
     </main>
   );

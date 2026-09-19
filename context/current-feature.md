@@ -45,8 +45,7 @@ Recorded so this breakdown isn't lost; pass each as the argument to a later
 - [x] 2d. Core primitives (Completed — see History)
 - [x] 2e. Form components (Completed — see History)
 - [x] 2f. Feedback components (Completed — see History)
-- [ ] 2g. Navigation components — `Tabs`, `SegmentedControl`, `Breadcrumbs`,
-      `Pagination`, `Menu` (Radix `Tabs`/`DropdownMenu`)
+- [x] 2g. Navigation components (Completed — see History)
 - [ ] 2h. Data display components — `MoneyAmount`, `OnChainRef`, `StatTile`,
       `ListRow`, `ProgressBar`, `Table`
 - [ ] 2i. Wham circle/bidding primitives — `RotationRing`, `CircleCard`,
@@ -103,3 +102,8 @@ prototype, keeping Select native per the design system's own stated intent
 Spinner, Tooltip, and EmptyState, using Radix UI for Dialog and Tooltip to
 fix real focus-trap/escape/aria-describedby gaps, keeping Toast
 presentational-only since no toast-triggering system exists yet (Completed)
+
+**Frontend — 2g. Navigation components** - build Tabs, SegmentedControl,
+Breadcrumbs, Pagination, and Menu, using Radix UI (Tabs, ToggleGroup for
+SegmentedControl, DropdownMenu) to fix real keyboard-navigation gaps in
+the source prototype (Completed)
