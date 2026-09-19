@@ -1,16 +1,19 @@
 name: contracts
 
+# Disabled for now: manual runs only (Actions tab -> contracts -> Run workflow).
+# To re-enable, restore the push/pull_request triggers below.
 on:
-  push:
-    paths:
-      - "contracts/**"
-      - "shared/**"
-      - ".github/workflows/contracts.yml"
-  pull_request:
-    paths:
-      - "contracts/**"
-      - "shared/**"
-      - ".github/workflows/contracts.yml"
+  workflow_dispatch:
+  # push:
+  #   paths:
+  #     - "contracts/**"
+  #     - "shared/**"
+  #     - ".github/workflows/contracts.yml"
+  # pull_request:
+  #   paths:
+  #     - "contracts/**"
+  #     - "shared/**"
+  #     - ".github/workflows/contracts.yml"
 
 concurrency:
   group: contracts-${{ github.ref }}
