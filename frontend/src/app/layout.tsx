@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Kdam_Thmor_Pro, Manrope } from "next/font/google";
+import { Providers } from "@/components/providers/Providers";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -51,7 +52,9 @@ export default function RootLayout({
       lang="en"
       className={`${manrope.variable} ${ibmPlexMono.variable} ${kdamThmorPro.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

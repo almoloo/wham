@@ -18,6 +18,7 @@ import {
   Tag,
 } from "@/components/ui";
 import { AgentGallery } from "./_components/AgentGallery";
+import { ConnectPanel } from "./_components/ConnectPanel";
 import { CircleGallery } from "./_components/CircleGallery";
 import { DataGallery } from "./_components/DataGallery";
 import { FeedbackGallery } from "./_components/FeedbackGallery";
@@ -44,6 +45,8 @@ export default function Home() {
         <h1>
           Wham design tokens
         </h1>
+
+        <ConnectPanel />
 
         <section className="flex flex-wrap gap-4">
           {SWATCHES.map((swatch) => (

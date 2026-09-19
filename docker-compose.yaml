@@ -139,6 +139,10 @@ services:
         # code, only on the Node server process. Both must be build args.
         NEXT_PUBLIC_CHAIN_ID: ${WHAM_CHAIN_ID:-421614}
         NEXT_PUBLIC_USE_MOCKS: "false"
+        NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: ${NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID}
+        # `next build` bakes the /api/v1 rewrite into the image, so the API URL is
+        # needed HERE as well as at runtime below (the BFF route handlers read it).
+        WHAM_API_URL: http://api:8080
     restart: unless-stopped
     depends_on:
       api:

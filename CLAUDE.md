@@ -156,8 +156,8 @@ See `.env.example`. Never commit a key.
 | `Wham__Keeper__PrivateKey` / `WHAM_KEEPER_PRIVATE_KEY` | **workers only** | sends `settleRound` / `start` / `cancel` |
 | `Wham__Auth__JwtSigningKey` / `WHAM_JWT_SIGNING_KEY` | backend | 32+ bytes |
 | `Wham__Email__ApiKey` / `WHAM_EMAIL_API_KEY`, `Wham__Telegram__BotToken` / `WHAM_TELEGRAM_BOT_TOKEN` | workers | optional |
-| `WHAM_API_URL` | frontend | internal container URL for the rewrite |
-| `NEXT_PUBLIC_CHAIN_ID`, `NEXT_PUBLIC_USE_MOCKS` | frontend | **build args, not runtime env** — inlined into the client bundle |
+| `WHAM_API_URL` | frontend | internal container URL. Needed at **build time** (the `/api/v1` rewrite is baked in by `next build`; a production build fails without it unless mocks are on) **and** at runtime (the BFF route handlers call it) |
+| `NEXT_PUBLIC_CHAIN_ID`, `NEXT_PUBLIC_USE_MOCKS`, `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | frontend | **build args, not runtime env** — inlined into the client bundle. The frontend throws at startup if the WalletConnect ID is missing |
 | `SERVICE_USER_POSTGRES`, `SERVICE_PASSWORD_POSTGRES` | postgres | Coolify-generated in production; set in `.env` for local compose |
 | `DEPLOYER_PK`, `AGENT_ADDRESS`, `ARB_SEPOLIA_RPC`, `ARBISCAN_API_KEY` | contracts | local only, never in compose |
 

@@ -31,7 +31,9 @@ teammate — check with them before starting the next one.
       ERC-8004 identity/attestation)
 - [ ] 1f. Keeper workers (`SettlementKeeper`, `CircleStarter`)
 - [ ] 1g. REST API + SIWE auth (endpoints per frontend spec §7, error
-      envelope, JWT-in-httpOnly-cookie flow)
+      envelope, JWT-in-httpOnly-cookie flow) — **the `/v1/auth/*` half of this
+      is already specified in `context/backend-roadmap.md`**, written by
+      Frontend 4
 - [ ] 1h. Notifications (email/Telegram, on-demand-derived reminders)
 
 All "Frontend — Design system" sub-features (2a–2j) are complete — see
@@ -113,3 +115,9 @@ README, CI) with no protocol contracts, so the Solidity teammate can start
 design-system component bigint/wire-string based with an explicit rounding
 direction, take bid discounts as integer bps, make the pool bar NaN-safe, and
 add Vitest with the first money tests (Completed)
+
+**Frontend — 4. SIWE authentication (frontend only)** - RainbowKit wallet
+connect, SIWE sign-in against a BFF-owned httpOnly session cookie, `/app/*`
+route gating, and a signature-verifying temporary stand-in for the .NET auth
+endpoints, with the real `/v1/auth/*` contract handed to the backend teammate
+in `context/backend-roadmap.md` (Completed)

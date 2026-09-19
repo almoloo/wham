@@ -4,7 +4,11 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   resolve: {
     // Mirrors the "@/*" path in tsconfig.json so tests can import like the app does.
-    alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      // `server-only` throws outside a React Server Components build.
+      "server-only": fileURLToPath(new URL("./src/test/server-only-stub.ts", import.meta.url)),
+    },
   },
   test: {
     // Pure-logic tests only; no DOM. Component tests would opt in per file.
